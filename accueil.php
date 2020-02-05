@@ -5,6 +5,7 @@
 <title>TP 4 - PHP - Inscriptions</title>
 </head>
 <body style="background-color: #ffcc00;">
-<!-- A COMPLETER -->
+<a href="employee_form.php">Insription</a>
+
 </body>
 </html>

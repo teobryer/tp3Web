@@ -24,6 +24,36 @@
 </form>
 <?php
 $inscriptions = array();
+session_start();
+
+
+function alreadyExist() {
+    if(  isset($_SESSION["tabInscrits"])){
+    foreach($_SESSION["tabInscrits"] as $i){
+
+if ( $i[0] == $_POST["nom"] && $i[1] == $_POST["age"] && $i[2]==$_POST["salaire"]){
+     return true;   
+}
+    }
+    }
+   return false;
+    
+}
+
+
+if(isset($_POST["nom"] ) && !alreadyExist()){
+    
+    $inscription= array($_POST["nom"], $_POST["age"], $_POST["salaire"]);
+    $fp = fopen('employees.csv', 'a');
+    
+   
+    
+    fputcsv($fp, $inscription);
+    $_SESSION["tabInscrits"][]= $inscription;
+    
+    fclose($fp);
+    
+}
 $row = 1;
 if (($handle = fopen("employees.csv", "r")) !== FALSE) {
     while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
@@ -41,18 +71,7 @@ if (($handle = fopen("employees.csv", "r")) !== FALSE) {
 
 
 
-if(isset($_POST["nom"] )){
-$inscriptions[]= array($_POST["nom"], $_POST["age"], $_POST["salaire"]);
-$fp = fopen('employees.csv', 'w');
 
-
-foreach ($inscriptions as $fields) {
-    fputcsv($fp, $fields);
-}
-
-fclose($fp);
-
-}
 echo "<table class=".'table'."> 
 <thead>
 <tr>

@@ -25,10 +25,10 @@
 <?php
 $inscriptions = array();
 session_start();
-
+$dejaInscrit= false;
 
 function alreadyExist() {
-    if(  isset($_SESSION["tabInscrits"])){
+    if( isset($_POST["nom"]) && isset($_SESSION["tabInscrits"])){
     foreach($_SESSION["tabInscrits"] as $i){
 
 if ( $i[0] == $_POST["nom"] && $i[1] == $_POST["age"] && $i[2]==$_POST["salaire"]){
@@ -53,6 +53,10 @@ if(isset($_POST["nom"] ) && !alreadyExist()){
     
     fclose($fp);
     
+}
+else {
+    
+    if (alreadyExist()) $dejaInscrit=true;
 }
 $row = 1;
 if (($handle = fopen("employees.csv", "r")) !== FALSE) {
@@ -95,6 +99,8 @@ if(isset($_POST["inscrire"])) {
 }
 
 echo" </tbody> </table>";
+if($dejaInscrit){ echo "Vous êtes déjà inscrit !";}
+
 ?>
 
 <a href="accueil.php">Retour à l'accueil</a>

@@ -86,16 +86,38 @@ echo "<table class=".'table'.">
 </thead>
 <tbody>";
 
-if(isset($_POST["inscrire"])) {
 
+
+
+
+
+
+if(isset($_POST["inscrire"])) {
+    $dom = new DOMDocument('1.0', 'iso-8859-1');
+    $root_element=$dom->createElement('employees','');
+    $dom->appendChild($root_element);
+    $compteur = 0;
     foreach ($inscriptions as $inscription){
-    
+        $employee=$dom->createElement('employee','');
+        $root_element->appendChild($employee);
+        $id=$dom->createElement('id', $compteur);
+        $employee->appendChild($id);
+        $nom=$dom->createElement('nom', $inscription[0]);
+        $employee->appendChild($nom);
+        $age=$dom->createElement('age',$inscription[1]);
+        $employee->appendChild($age);
+        $salaire=$dom->createElement('salaire',$inscription[2]);
+        $employee->appendChild($salaire);
     echo " <tr>
-    <th scope=".'row'.">".$inscription[0]."</th>
+    <th scope=".'row'."> <a href='get_employee.php?nom=".$inscription[0]."&age=".$inscription[1]."&salaire=".$inscription[2]."'> $inscription[0]</a> </th>
     <td>".$inscription[1]."</td>
     <td>".$inscription[2]."</td>
     </tr>";
+    $compteur++;
 }
+
+
+$dom->save(__DIR__.'/employees.xml');
 }
 
 echo" </tbody> </table>";
